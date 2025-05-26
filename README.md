@@ -537,3 +537,212 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Brazilian Central Bank for exchange rates
 - Yahoo Finance for market indices
 - All contributors and users of the API
+
+## Guia Completo de Conceitos Financeiros (Para Iniciantes)
+
+### 1. Conceitos Básicos do Mercado
+
+#### O que é a Bolsa de Valores?
+Imagine um grande shopping center onde, ao invés de comprar roupas ou comida, as pessoas compram e vendem pedacinhos de empresas (ações). É como uma feira gigante, mas digital, onde:
+- As pessoas podem comprar parte de empresas famosas
+- Os preços mudam o tempo todo, dependendo de quantas pessoas querem comprar ou vender
+- Funciona como um aplicativo, você pode comprar e vender pelo celular ou computador
+- Tem regras para proteger quem está comprando e vendendo
+
+#### O que são Ações?
+São como "tickets" que representam um pedacinho de uma empresa. Por exemplo:
+- Se uma empresa fosse uma pizza, cada ação seria uma fatia
+- Quando você compra uma ação, vira dono de um pedacinho da empresa
+- Se a empresa lucra, parte desse dinheiro pode ir para quem tem ações (chamamos isso de dividendos)
+- O preço da ação sobe quando muita gente quer comprar e desce quando muita gente quer vender
+
+### 2. Mercado Internacional e ADRs
+
+#### O que é um ADR (American Depositary Receipt)?
+É uma forma de investir em empresas brasileiras através do mercado americano:
+- É como se fosse um "passaporte" para ações brasileiras nos EUA
+- Permite comprar ações de empresas como Vale e Petrobras usando dólares
+- O preço é em dólar, não em reais
+- Você pode receber dividendos em dólar
+
+**Exemplo Prático de ADR:**
+- VALE3 é a ação da Vale na bolsa brasileira (em reais)
+- VALE é o ADR da Vale na bolsa americana (em dólares)
+- São a mesma empresa, só que negociada em lugares diferentes
+
+#### Por que Investir em ADRs?
+1. Proteção Contra o Dólar
+   - Se o dólar sobe, seu investimento em reais vale mais
+   - É como ter uma poupança em dólar
+   - Protege seu dinheiro quando o real perde valor
+
+2. Facilidade
+   - Você investe em empresas que já conhece
+   - Não precisa abrir conta em corretora estrangeira
+   - Pode comprar e vender durante o horário americano
+
+### 3. Câmbio e Moedas
+
+#### Como Funciona o Dólar/Real?
+Imagine que você está viajando:
+- Se o dólar está R$ 5,00: cada 1 dólar = 5 reais
+- Se o dólar sobe para R$ 5,50: você precisa de mais reais para comprar a mesma coisa
+- Se o dólar cai para R$ 4,50: seu poder de compra em dólar aumenta
+
+**Por que o Dólar Sobe e Desce?**
+- Quando muita gente quer comprar dólar, o preço sobe
+- Quando muita gente quer vender dólar, o preço cai
+- Notícias da economia podem fazer o dólar subir ou cair
+- Decisões do governo também afetam o preço do dólar
+
+### 4. Gestão de Investimentos
+
+#### Como Montar uma Carteira de Investimentos
+É como organizar uma coleção:
+1. Diversificação
+   - Não coloque todo dinheiro em uma só empresa
+   - Misture diferentes tipos de investimentos
+   - É como não colocar todos os ovos na mesma cesta
+
+2. Acompanhamento
+   - Anote tudo que você compra e vende
+   - Guarde os preços que pagou
+   - Acompanhe os resultados regularmente
+
+#### Estratégias de Investimento
+1. Buy and Hold (Comprar e Segurar)
+   - Compra e mantém por muito tempo
+   - Não se preocupa com variações de curto prazo
+   - Foco em empresas sólidas e dividendos
+
+2. Preço Médio
+   - Compra aos poucos, em diferentes preços
+   - Diminui o risco de comprar tudo caro
+   - Ajuda a ter um preço médio melhor
+
+### 5. Análise de Mercado
+
+#### Correlação entre Mercados
+Como mercados diferentes se relacionam:
+- Se a bolsa americana sobe, a brasileira geralmente sobe também
+- Se o dólar sobe muito, pode afetar empresas brasileiras
+- Alguns mercados se movem juntos, outros de forma oposta
+
+#### Volume de Negociação
+É a quantidade de compras e vendas:
+- Volume alto: muita gente negociando
+- Volume baixo: pouca gente negociando
+- Ajuda a entender se o movimento do preço é forte ou fraco
+
+### 6. Alertas e Monitoramento
+
+#### Tipos de Alertas
+1. Alerta de Preço
+   - Avisa quando uma ação chega em certo preço
+   - Ajuda a não perder oportunidades
+   - Pode ser para comprar ou vender
+
+2. Alerta de Volume
+   - Avisa quando muita gente está negociando
+   - Pode indicar que algo importante está acontecendo
+   - Ajuda a identificar movimentos fortes
+
+### 7. Impostos e Documentação
+
+#### Quando Pagar Impostos?
+Para ADRs e ações:
+- Vendas até R$ 35.000 por mês: isento
+- Acima de R$ 35.000: 15% sobre o lucro
+- Dividendos têm regras diferentes
+
+#### Como Organizar para o Imposto de Renda
+- Guarde todos os comprovantes de compra e venda
+- Anote preços e quantidades
+- Separe ganhos com valorização e dividendos
+- Use nossa ferramenta para gerar relatórios
+
+### 8. Riscos e Cuidados
+
+#### Principais Riscos
+1. Risco de Mercado
+   - Preços podem cair
+   - Empresas podem ter problemas
+   - Mercado pode passar por crises
+
+2. Risco Cambial
+   - O dólar pode cair quando você tem ADRs
+   - Pode afetar seu retorno em reais
+   - Faz parte da estratégia de diversificação
+
+#### Como se Proteger
+1. Diversificação
+   - Invista em várias empresas diferentes
+   - Misture investimentos em reais e dólares
+   - Tenha uma reserva de emergência
+
+2. Estudo Constante
+   - Aprenda sobre as empresas que investe
+   - Acompanhe notícias do mercado
+   - Use ferramentas de análise
+
+### 9. Nossa Ferramenta (API)
+
+#### Como Usar no Dia a Dia
+1. Para Acompanhar Preços
+   ```http
+   GET /api/adr/quote/VALE/
+   ```
+   - Vê o preço atual em dólar e reais
+   - Acompanha variação no dia
+   - Monitora volume de negociação
+
+2. Para Análise Histórica
+   ```http
+   GET /api/adr/historical/VALE/
+   ```
+   - Vê preços antigos
+   - Analisa tendências
+   - Compara diferentes períodos
+
+3. Para Gestão de Carteira
+   ```http
+   GET /api/portfolio/summary/
+   ```
+   - Vê todo seu patrimônio
+   - Acompanha rentabilidade
+   - Analisa distribuição dos investimentos
+
+### 10. Dicas Práticas para Iniciantes
+
+1. Comece Devagar
+   - Estude antes de investir
+   - Comece com valores pequenos
+   - Aprenda com a prática
+
+2. Use Ferramentas
+   - Nossa API ajuda a acompanhar investimentos
+   - Configure alertas para oportunidades
+   - Mantenha registros organizados
+
+3. Mantenha a Calma
+   - Mercado sobe e desce
+   - Decisões emocionais geralmente são ruins
+   - Pense no longo prazo
+
+4. Continue Aprendendo
+   - Mercado financeiro muda sempre
+   - Novas oportunidades aparecem
+   - Conhecimento nunca é demais
+
+### 11. Glossário Simplificado
+
+- **Volatilidade**: Quanto o preço sobe e desce (como montanha-russa)
+- **Liquidez**: Facilidade de comprar e vender
+- **Dividendo**: Parte do lucro distribuído aos acionistas
+- **Stop Loss**: Preço para vender e limitar perdas
+- **Take Profit**: Preço para vender e garantir lucro
+- **Day Trade**: Comprar e vender no mesmo dia
+- **Spread**: Diferença entre preço de compra e venda
+- **Benchmark**: Índice usado para comparação (como Ibovespa)
+- **Hedge**: Proteção contra riscos
+- **Blue Chips**: Ações de empresas grandes e tradicionais
