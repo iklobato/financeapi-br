@@ -746,3 +746,133 @@ Para ADRs e ações:
 - **Benchmark**: Índice usado para comparação (como Ibovespa)
 - **Hedge**: Proteção contra riscos
 - **Blue Chips**: Ações de empresas grandes e tradicionais
+
+## Pitch de Negócio - Dados Financeiros BR 🚀
+
+### Problema
+
+Investidores brasileiros enfrentam três grandes desafios ao investir em ADRs:
+- Dificuldade em acompanhar preços em tempo real com conversão automática para reais
+- Complexidade na gestão de impostos e documentação para declaração
+- Falta de ferramentas que integrem dados do mercado americano e brasileiro
+
+### Nossa Solução
+
+O Dados Financeiros BR é uma API completa que simplifica a vida do investidor brasileiro no mercado internacional:
+- Acompanhamento em tempo real de ADRs com preços em dólar e reais
+- Gestão automática de carteira com cálculo de impostos
+- Alertas personalizados de preço e volume
+- Relatórios prontos para declaração de IR
+- Análise de correlação entre mercados
+
+### Diferencial Competitivo 🏆
+
+1. **Foco no Investidor Brasileiro**
+   - Interface em português
+   - Documentação adaptada à realidade brasileira
+   - Suporte às regras fiscais do Brasil
+
+2. **Tecnologia de Ponta**
+   - Dados em tempo real
+   - Processamento distribuído
+   - Alta disponibilidade
+   - Escalabilidade automática
+
+3. **Facilidade de Uso**
+   - API REST simples e bem documentada
+   - SDKs para principais linguagens
+   - Exemplos práticos e tutoriais
+   - Suporte técnico em português
+
+### Mercado-Alvo 🎯
+
+- **Pessoas Físicas**: 3+ milhões de CPFs na B3 com potencial de investimento em ADRs
+- **Corretoras**: +80 corretoras autorizadas pela CVM
+- **Gestores de Investimento**: +1000 gestores registrados
+- **Desenvolvedores**: Comunidade tech que precisa de dados financeiros confiáveis
+
+### Modelo de Negócio 💰
+
+**Planos de Assinatura:**
+
+1. **Básico (Gratuito)**
+   - Cotações com delay de 15 minutos
+   - Limite de 100 requisições/dia
+   - Dados históricos do último mês
+
+2. **Investidor (R$ 49/mês)**
+   - Cotações em tempo real
+   - 1.000 requisições/dia
+   - Dados históricos completos
+   - Alertas básicos
+
+3. **Profissional (R$ 199/mês)**
+   - Cotações em tempo real
+   - 10.000 requisições/dia
+   - Dados históricos completos
+   - Alertas avançados
+   - Análise técnica
+   - Suporte prioritário
+
+4. **Enterprise (Personalizado)**
+   - Volume ilimitado de requisições
+   - API dedicada
+   - SLA garantido
+   - Suporte 24/7
+   - Customizações específicas
+
+### Tração e Métricas 📈
+
+- **MVP Lançado**: Já em produção com primeiros usuários
+- **Early Adopters**: 50 desenvolvedores testando a API
+- **Feedback**: 95% de satisfação nos primeiros testes
+- **Crescimento**: 20% semana/semana em requisições
+
+### Próximos Passos 🎯
+
+1. **Curto Prazo (6 meses)**
+   - Expandir base de usuários gratuitos
+   - Lançar SDK para Python e JavaScript
+   - Implementar mais indicadores técnicos
+   - Desenvolver dashboard web
+
+2. **Médio Prazo (12 meses)**
+   - Integrar mais fontes de dados
+   - Lançar app mobile
+   - Expandir para outros países da América Latina
+   - Adicionar criptomoedas
+
+3. **Longo Prazo (24 meses)**
+   - Tornar-se a principal fonte de dados financeiros do Brasil
+   - Expandir para análise fundamentalista
+   - Desenvolver produtos para institucionais
+   - IPO na B3
+
+### Time 👥
+
+- **CEO**: 15 anos de experiência em mercado financeiro
+- **CTO**: 12 anos desenvolvendo sistemas de alta performance
+- **Head de Produto**: 8 anos em produtos B2B/B2C
+- **Head de Dados**: PhD em Ciência de Dados
+- **Desenvolvedores**: Equipe full-stack especializada em sistemas financeiros
+
+### Investimento e Uso dos Recursos 💰
+
+**Captação Série A: R$ 5 milhões**
+
+Distribuição:
+- 40% Desenvolvimento de Produto
+- 25% Marketing e Aquisição de Clientes
+- 20% Infraestrutura e Escalabilidade
+- 15% Capital de Giro
+
+### Contato 📧
+
+- Site: www.dadosfinanceirosbr.com.br
+- Email: contato@dadosfinanceirosbr.com.br
+- LinkedIn: /company/dados-financeiros-br
+- GitHub: /dadosfinanceirosbr
+
+---
+
+*"Democratizando o acesso a dados financeiros de qualidade para todos os brasileiros"*
