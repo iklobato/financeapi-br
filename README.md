@@ -2,62 +2,159 @@
 
 A comprehensive REST API for Brazilian ADR (American Depositary Receipt) market data, exchange rates, and portfolio management, with a focus on Brazilian investors tracking their international investments.
 
+## Overview
+
+This API provides a robust platform for Brazilian investors to:
+- Track ADR prices in both USD and BRL in real-time
+- Monitor exchange rates and currency exposure
+- Manage investment portfolios with tax implications
+- Analyze market correlations between Brazilian and US markets
+- Set up price alerts and notifications
+- Generate reports for tax purposes
+
+## Table of Contents
+
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Architecture](#architecture)
+- [API Documentation](#api-documentation)
+- [Development Setup](#development-setup)
+- [Production Deployment](#production-deployment)
+- [Background Tasks](#background-tasks)
+- [Monitoring and Logging](#monitoring-and-logging)
+- [Contributing](#contributing)
+- [License](#license)
+- [Support](#support)
+
 ## Features
 
-- Real-time ADR quotes with USD and BRL prices
-- Exchange rate tracking (USD/BRL)
-- Portfolio management with tax calculations
-- Market correlation analysis (S&P 500 vs Ibovespa)
-- Price alerts and notifications
-- Historical data and performance metrics
-- Automated tasks for data updates and maintenance
+### Core Features
+- **Real-time ADR Quotes**
+  - Live price updates from Polygon.io
+  - Automatic currency conversion
+  - Historical price data
+  - Volume and market indicators
+
+- **Exchange Rate Tracking**
+  - Real-time USD/BRL rates
+  - Historical exchange rates
+  - Rate alerts and notifications
+  - Central Bank integration
+
+- **Portfolio Management**
+  - Position tracking
+  - Cost basis calculation
+  - Performance metrics
+  - Tax lot tracking
+  - Dividend tracking
+  - Capital gains calculation
+
+- **Market Analysis**
+  - S&P 500 vs Ibovespa correlation
+  - Technical indicators
+  - Market sentiment analysis
+  - Volume analysis
+
+- **Alerts System**
+  - Price threshold alerts
+  - Volume alerts
+  - Technical indicator alerts
+  - Custom alert conditions
+  - Multiple notification channels
+
+### Advanced Features
+- **Tax Reporting**
+  - Monthly tax position reports
+  - Capital gains calculation
+  - Dividend tax implications
+  - IRPF (Brazilian tax return) support
+
+- **Risk Analysis**
+  - Portfolio diversification metrics
+  - Currency exposure analysis
+  - Correlation matrices
+  - Value at Risk (VaR) calculations
+
+- **API Rate Limiting**
+  - Tiered access levels
+  - Usage monitoring
+  - Fair use policies
+  - Burst handling
 
 ## Tech Stack
 
-- **Framework**: Django 4.2.21 with Django REST Framework
-- **Database**: PostgreSQL (with SQLite support for development)
-- **Cache**: Redis
-- **Task Queue**: Celery with Redis broker
-- **External APIs**:
+### Core Technologies
+- **Framework**: Django 4.2.21
+  - Django REST Framework for API
+  - Django ORM for database operations
+  - Django Channels for real-time updates
+
+- **Database**: PostgreSQL
+  - TimescaleDB extension for time-series data
+  - Partitioned tables for performance
+  - Full-text search capabilities
+
+- **Cache Layer**: Redis
+  - Session management
+  - Rate limiting
+  - Real-time data caching
+  - Pub/Sub for notifications
+
+- **Task Queue**: Celery
+  - Distributed task processing
+  - Scheduled jobs
+  - Error handling and retries
+  - Task monitoring
+
+### External Services
+- **Market Data**
   - Polygon.io for ADR data
-  - Brazilian Central Bank (BCB) for exchange rates
-  - Yahoo Finance for market indices
+  - Brazilian Central Bank API for exchange rates
+  - Yahoo Finance for indices
 
-## Architecture
+- **Infrastructure**
+  - Docker containers
+  - Nginx reverse proxy
+  - uWSGI application server
+  - SSL/TLS encryption
 
-### Core Components
+## API Documentation
 
-1. **API Layer**
-   - RESTful endpoints with authentication
-   - Rate limiting based on subscription plans
-   - Comprehensive error handling and logging
+### Authentication
 
-2. **Data Services**
-   - Real-time market data integration
-   - Caching strategy for performance optimization
-   - Historical data management
+```http
+POST /api/auth/token/
+```
+Obtain authentication token.
 
-3. **Background Tasks**
-   - Automated data updates
-   - Price alert monitoring
-   - Portfolio snapshots and analytics
+Request:
+```json
+{
+    "username": "user@example.com",
+    "password": "secure_password"
+}
+```
 
-4. **Security**
-   - API key authentication
-   - HTTPS enforcement in production
-   - Rate limiting and request validation
+Response:
+```json
+{
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+    "expires_at": "2025-06-25T23:20:08Z"
+}
+```
 
-## API Endpoints
+### ADR Endpoints
 
-### ADR Quotes
+#### Get ADR Quote
 
 ```http
 GET /api/adr/quote/{ticker}/
 ```
-Get real-time ADR quote with USD and BRL prices.
 
 Parameters:
 - `ticker`: ADR symbol (e.g., 'VALE', 'PBR')
+- `currency`: Response currency (default: 'USD')
+- `include_details`: Include additional market data (default: false)
 
 Response:
 ```json
@@ -67,43 +164,58 @@ Response:
     "price_brl": 78.75,
     "exchange_rate": 5.00,
     "volume": 12345678,
-    "change_percent_day": -1.25,
+    "change_percent": -1.25,
     "timestamp": "2025-05-25T14:30:00Z",
-    "source": "polygon",
-    "delay_minutes": 15
+    "details": {
+        "bid": 15.74,
+        "ask": 15.76,
+        "day_high": 16.00,
+        "day_low": 15.50,
+        "52_week_high": 20.00,
+        "52_week_low": 12.00
+    }
 }
 ```
 
-### Market Correlation
+#### Get Historical Prices
 
 ```http
-GET /api/correlacao/ibovespa-sp500/
+GET /api/adr/historical/{ticker}/
 ```
-Get correlation analysis between S&P 500 and Ibovespa.
+
+Parameters:
+- `ticker`: ADR symbol
+- `start_date`: Start date (YYYY-MM-DD)
+- `end_date`: End date (YYYY-MM-DD)
+- `interval`: Data interval ('1d', '1h', '15min')
+- `currency`: Response currency
 
 Response:
 ```json
 {
-    "date": "2025-05-25",
-    "correlation_30d": 0.85,
-    "correlation_7d": 0.78,
-    "correlation_strength_30d": "high",
-    "correlation_strength_7d": "high",
-    "sp500_return": 1.25,
-    "ibovespa_return": 1.15,
-    "insights": [
-        "Strong positive correlation in the last 30 days",
-        "Markets moving in tandem with similar returns"
+    "ticker": "VALE",
+    "interval": "1d",
+    "currency": "USD",
+    "data": [
+        {
+            "timestamp": "2025-05-25T00:00:00Z",
+            "open": 15.50,
+            "high": 16.00,
+            "low": 15.25,
+            "close": 15.75,
+            "volume": 12345678
+        }
     ]
 }
 ```
 
-### Portfolio Management
+### Portfolio Endpoints
+
+#### Add Transaction
 
 ```http
 POST /api/portfolio/transaction/
 ```
-Record a new portfolio transaction.
 
 Request:
 ```json
@@ -113,14 +225,22 @@ Request:
     "quantity": 100,
     "price_usd": 15.75,
     "date": "2025-05-25",
-    "exchange_rate": 5.00
+    "exchange_rate": 5.00,
+    "fees_usd": 1.50,
+    "notes": "Initial position"
 }
 ```
+
+#### Get Portfolio Summary
 
 ```http
 GET /api/portfolio/summary/
 ```
-Get portfolio summary with performance metrics.
+
+Parameters:
+- `date`: Summary date (default: today)
+- `currency`: Response currency
+- `include_history`: Include historical performance
 
 Response:
 ```json
@@ -128,72 +248,78 @@ Response:
     "total_value_usd": 50000.00,
     "total_value_brl": 250000.00,
     "total_return_pct": 15.75,
+    "currency_exposure": {
+        "USD": 80.5,
+        "BRL": 19.5
+    },
     "holdings": [
         {
             "ticker": "VALE",
             "quantity": 1000,
-            "current_value_usd": 15750.00,
-            "current_value_brl": 78750.00,
-            "weight": 0.315
+            "avg_price_usd": 15.00,
+            "current_price_usd": 15.75,
+            "market_value_usd": 15750.00,
+            "market_value_brl": 78750.00,
+            "weight": 31.5,
+            "return_pct": 5.00
         }
+    ],
+    "performance": {
+        "1d": 0.5,
+        "1w": 1.2,
+        "1m": 3.5,
+        "ytd": 12.5
+    }
+}
+```
+
+### Market Analysis Endpoints
+
+#### Get Market Correlation
+
+```http
+GET /api/analysis/correlation/
+```
+
+Parameters:
+- `index1`: First index (e.g., 'SPX', 'IBOV')
+- `index2`: Second index
+- `period`: Analysis period ('7d', '30d', '90d')
+
+Response:
+```json
+{
+    "period": "30d",
+    "correlation": 0.85,
+    "strength": "strong",
+    "data_points": 30,
+    "index1": {
+        "name": "S&P 500",
+        "return": 1.25,
+        "volatility": 0.8
+    },
+    "index2": {
+        "name": "Ibovespa",
+        "return": 1.15,
+        "volatility": 1.2
+    },
+    "analysis": [
+        "Strong positive correlation in the last 30 days",
+        "Both markets showing similar volatility patterns",
+        "Correlation strengthening compared to previous period"
     ]
 }
 ```
 
-### Price Alerts
-
-```http
-POST /api/alerts/
-```
-Create a new price alert.
-
-Request:
-```json
-{
-    "ticker": "VALE",
-    "price_usd": 16.00,
-    "condition": "above",
-    "notification_type": "email"
-}
-```
-
-## Background Tasks
-
-### Scheduled Tasks
-
-1. **update_adr_quotes**
-   - Frequency: Every minute during market hours
-   - Updates quotes for all supported ADRs
-   - Manages cache and database storage
-
-2. **check_price_alerts**
-   - Frequency: Every minute
-   - Checks active price alerts against current quotes
-   - Triggers notifications when conditions are met
-
-3. **update_correlation_data**
-   - Frequency: Every hour
-   - Calculates market correlations
-   - Updates historical correlation data
-
-4. **daily_portfolio_snapshot**
-   - Frequency: Daily after market close
-   - Records portfolio values and performance
-   - Generates daily reports
-
-### Maintenance Tasks
-
-1. **cleanup_old_data**
-   - Frequency: Daily
-   - Removes outdated quotes and historical data
-   - Maintains database performance
-
-2. **health_check**
-   - Frequency: Every minute
-   - Monitors API services and connections
-   - Reports issues to monitoring system
-
 ## Development Setup
+
+### Prerequisites
+- Python 3.13+
+- PostgreSQL 15+
+- Redis 7.2+
+- Node.js 20+ (for frontend development)
+
+### Local Environment Setup
 
 1. Clone the repository:
 ```bash
@@ -217,96 +343,183 @@ uv pip install -r requirements.txt
 4. Set up environment variables:
 ```bash
 cp .env.example .env
-# Edit .env with your configuration
+# Edit .env with your configuration:
+# - Database credentials
+# - API keys (Polygon.io, etc.)
+# - Redis connection
+# - Email settings
 ```
 
-5. Run migrations:
+5. Initialize the database:
 ```bash
 python manage.py migrate
+python manage.py createsuperuser
+python manage.py loaddata initial_data
 ```
 
-6. Start services:
+6. Start development services:
 ```bash
+# Terminal 1: Redis
 redis-server
+
+# Terminal 2: Celery Worker
 celery -A financeapi_br2 worker -l info
+
+# Terminal 3: Celery Beat
 celery -A financeapi_br2 beat -l info
+
+# Terminal 4: Django Development Server
 python manage.py runserver
 ```
 
+### Development Tools
+
+- **Code Quality**:
+  ```bash
+  # Format code
+  black .
+  isort .
+  
+  # Run linters
+  flake8
+  mypy .
+  
+  # Run tests
+  pytest
+  ```
+
+- **Database Management**:
+  ```bash
+  # Create new migration
+  python manage.py makemigrations
+  
+  # Show SQL for migration
+  python manage.py sqlmigrate app_name migration_name
+  
+  # Check migration status
+  python manage.py showmigrations
+  ```
+
+- **API Documentation**:
+  ```bash
+  # Generate OpenAPI schema
+  python manage.py generateschema > openapi-schema.yml
+  
+  # Run documentation server
+  python manage.py spectacular --file schema.yml
+  ```
+
 ## Production Deployment
 
-### Requirements
+### System Requirements
 
-- PostgreSQL database
-- Redis server
-- HTTPS certificate
-- Monitoring system
-- Sufficient API quotas for external services
+- 4+ CPU cores
+- 8GB+ RAM
+- 50GB+ SSD storage
+- Ubuntu 22.04 LTS or similar
 
-### Configuration
+### Security Configuration
 
-1. Set secure environment variables:
-   - `SECRET_KEY`
-   - `ALLOWED_HOSTS`
-   - `DATABASE_URL`
-   - `REDIS_URL`
-   - `POLYGON_API_KEY`
+1. SSL/TLS Setup:
+```bash
+# Install certbot
+sudo apt install certbot python3-certbot-nginx
 
-2. Enable production settings:
-   - HTTPS enforcement
-   - Proper CORS configuration
-   - Rate limiting
-   - Secure cookie settings
+# Obtain certificate
+sudo certbot --nginx -d api.financeapi-br.com.br
+```
 
-3. Set up monitoring:
-   - Application logs
-   - Error tracking
-   - Performance metrics
-   - API usage monitoring
+2. Firewall Configuration:
+```bash
+# Allow only necessary ports
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw allow 22/tcp
+```
 
-## Challenges and Solutions
+3. Database Security:
+```bash
+# Configure PostgreSQL access
+sudo nano /etc/postgresql/15/main/pg_hba.conf
 
-1. **Real-time Data Synchronization**
-   - Challenge: Maintaining consistent and timely market data
-   - Solution: Implemented efficient caching with Redis and background tasks
+# Set up database backup
+sudo -u postgres pg_dump financeapi > backup.sql
+```
 
-2. **Exchange Rate Management**
-   - Challenge: Accurate currency conversion for Brazilian investors
-   - Solution: Direct integration with Brazilian Central Bank API and fallback sources
+### Monitoring Setup
 
-3. **Performance Optimization**
-   - Challenge: Handling multiple concurrent requests and data updates
-   - Solution: Implemented caching strategies and database optimizations
+1. Prometheus Configuration:
+```yaml
+global:
+  scrape_interval: 15s
 
-4. **API Rate Limits**
-   - Challenge: Managing external API quotas and costs
-   - Solution: Implemented tiered rate limiting and efficient data caching
+scrape_configs:
+  - job_name: 'django'
+    static_configs:
+      - targets: ['localhost:8000']
+```
 
-## Future Improvements
+2. Grafana Dashboards:
+- API performance metrics
+- Database query monitoring
+- Cache hit rates
+- Task queue status
 
-1. **Technical Analysis**
-   - Add technical indicators and chart patterns
-   - Implement trading signals
+### Deployment Process
 
-2. **Machine Learning Integration**
-   - Portfolio optimization suggestions
-   - Market trend predictions
+1. Build and push Docker images:
+```bash
+docker build -t financeapi-br .
+docker push registry.example.com/financeapi-br
+```
 
-3. **Enhanced Reporting**
-   - Custom report generation
-   - Tax documentation for Brazilian investors
-
-4. **Mobile App Integration**
-   - Real-time push notifications
-   - Mobile-optimized endpoints
+2. Deploy with Docker Compose:
+```yaml
+version: '3.8'
+services:
+  web:
+    image: financeapi-br
+    environment:
+      - DJANGO_SETTINGS_MODULE=financeapi_br2.settings.prod
+    depends_on:
+      - db
+      - redis
+  db:
+    image: postgres:15
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  redis:
+    image: redis:7.2
+    volumes:
+      - redisdata:/data
+```
 
 ## Contributing
 
+### Development Workflow
+
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+2. Create a feature branch:
+```bash
+git checkout -b feature/new-feature
+```
+
+3. Make your changes:
+- Write tests for new functionality
+- Follow code style guidelines
+- Update documentation
+
+4. Submit a pull request:
+- Clear description of changes
+- Link to related issues
+- Test results and coverage
+
+### Code Style
+
+- Follow PEP 8 guidelines
+- Use type hints
+- Write docstrings for public APIs
+- Keep functions focused and small
 
 ## License
 
@@ -314,11 +527,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Support
 
-For support, email support@financeapi-br.com.br or open an issue in the repository.
+- GitHub Issues: Technical problems and feature requests
+- Email: support@financeapi-br.com.br
+- Documentation: https://docs.financeapi-br.com.br
 
 ## Acknowledgments
 
 - Polygon.io for market data
 - Brazilian Central Bank for exchange rates
 - Yahoo Finance for market indices
-- All contributors and users of the API # financeapi-br
+- All contributors and users of the API
